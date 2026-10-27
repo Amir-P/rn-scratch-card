@@ -15,15 +15,31 @@ class ScratchCardView : UIView {
         let end: CGPoint
     }
 
-    private var startPoint: CGPoint!
-    private var endPoint: CGPoint!
-    private var context: CGContext!
+    private var startPoint: CGPoint = .zero
     private var segments = [Segment]()
     private var swiped = false
 
     private var overlayImage: UIImage? = nil
     private var lineWidth: CGFloat = 0
-    private var visibleRect: CGRect? = nil
+
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        configureView()
+    }
+
+    required init?(coder: NSCoder) {
+        super.init(coder: coder)
+        configureView()
+    }
+
+    // UIView is opaque by default, so draw(_:) has no alpha channel and
+    // CGBlendMode.clear writes black. A non-opaque view keeps scratched
+    // pixels transparent. Redraw on resize so the foil is not stretched.
+    private func configureView() {
+        isOpaque = false
+        backgroundColor = .clear
+        contentMode = .redraw
+    }
 
     @objc var image: NSDictionary? = nil {
         didSet {
@@ -73,22 +89,21 @@ class ScratchCardView : UIView {
     @objc var brushWidth: NSNumber? = nil {
         didSet {
             lineWidth = RCTConvert.cgFloat(brushWidth)
+            setNeedsDisplay()
         }
     }
 
     @objc var onScratch: RCTDirectEventBlock? = nil
 
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        startPoint = touches.first?.location(in: self)
+        startPoint = touches.first?.location(in: self) ?? .zero
         swiped = false
         notifyScratch(startPoint)
     }
 
     override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
-        endPoint = touches.first?.location(in: self)
-
-        guard let rect = visibleRect else { return }
-        guard rect.contains(endPoint) else { return }
+        guard let endPoint = touches.first?.location(in: self) else { return }
+        guard bounds.contains(endPoint) else { return }
 
         swiped = true
         segments.append(Segment(start: startPoint, end: endPoint))
@@ -107,24 +122,20 @@ class ScratchCardView : UIView {
     }
 
     override func draw(_ rect: CGRect) {
-        super.draw(rect)
-        visibleRect = rect
-        overlayImage?.draw(in: rect)
+        guard let context = UIGraphicsGetCurrentContext(), let overlayImage else { return }
 
-        context = UIGraphicsGetCurrentContext()
+        // Paint the full card. `rect` is only the dirty region, and drawing
+        // the foil into that rect would stretch it.
+        overlayImage.draw(in: bounds)
 
-        for each in segments {
-            drawLineFrom(fromPoint: each.start, toPoint: each.end)
-        }
-    }
-
-    private func drawLineFrom(fromPoint: CGPoint, toPoint: CGPoint) {
-        context.setLineWidth(lineWidth)
-        context.move(to: fromPoint)
         context.setBlendMode(.clear)
         context.setLineCap(.round)
-        context.addLine(to: toPoint)
-        context.strokePath()
+        context.setLineWidth(lineWidth)
+        for segment in segments {
+            context.move(to: segment.start)
+            context.addLine(to: segment.end)
+            context.strokePath()
+        }
     }
 
     private func notifyScratch(_ point: CGPoint) {
