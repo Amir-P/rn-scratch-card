@@ -2185,6 +2185,11 @@
   resolved "https://registry.yarnpkg.com/@react-native/normalize-colors/-/normalize-colors-0.88.0.tgz#a337802f062b2ac9854f95ac877400359621f0e5"
   integrity sha512-eZCu3tGAQCfvMCPQJVY4dmoMX8ZZYBvqIGHX7lwOYyzNK+Dl8e5ky7ZoXub1Rq75oSrQXNNmSP2CDjNNXXZpFQ==
 
+"@react-native/typescript-config@0.88.0":
+  version "0.88.0"
+  resolved "https://registry.yarnpkg.com/@react-native/typescript-config/-/typescript-config-0.88.0.tgz#05366cf4cf11d1d852d52b852404467c1c27c4ea"
+  integrity sha512-o8xdzvWQZUlx+WXsAWN3LGKKP+o2QKMd2alERuFSCxgy8mbX/W62+OThRfBVMQaKF4bCxD5P5DM60EbGPcyw+g==
+
 "@react-native/virtualized-lists@0.88.0":
   version "0.88.0"
   resolved "https://registry.yarnpkg.com/@react-native/virtualized-lists/-/virtualized-lists-0.88.0.tgz#4c914b4be5532ee4d25b719ca09a06e6eb4dfe8b"
@@ -8495,10 +8500,15 @@ typedarray@^0.0.6:
   resolved "https://registry.yarnpkg.com/typedarray/-/typedarray-0.0.6.tgz#867ac74e3864187b1d3d47d996a78ec5c8830777"
   integrity sha1-hnrHTjhkGHsdPUfZlqeOxciDB3c=
 
-typescript@^4.6.4, typescript@^4.9.5:
+typescript@^4.6.4:
   version "4.9.5"
   resolved "https://registry.yarnpkg.com/typescript/-/typescript-4.9.5.tgz#095979f9bcc0d09da324d58d03ce8f8374cbe65a"
   integrity sha512-1FXk9E2Hm+QzZQ7z+McJiHL4NW1F2EzMu9Nq9i3zAaGqibafqYwCVU6WyWAuyQRRzOlxou8xZSyXLEN8oKj24g==
+
+typescript@^6.0.3:
+  version "6.0.3"
+  resolved "https://registry.yarnpkg.com/typescript/-/typescript-6.0.3.tgz#90251dc007916e972786cb94d74d15b185577d21"
+  integrity sha512-y2TvuxSZPDyQakkFRPZHKFm+KKVqIisdg9/CZwm9ftvKXLP8NRWj38/ODjNbr43SsoXqNuAisEf1GdCxqWcdBw==
 
 uglify-js@^3.1.4:
   version "3.15.1"

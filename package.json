@@ -58,6 +58,7 @@
   "devDependencies": {
     "@commitlint/config-conventional": "^17.4.4",
     "@react-native-community/eslint-config": "^3.2.0",
+    "@react-native/typescript-config": "0.88.0",
     "@release-it/conventional-changelog": "^5.1.1",
     "@types/jest": "^29.4.0",
     "@types/react": "^19.2.0",
@@ -74,7 +75,7 @@
     "react-native-builder-bob": "^0.20.0",
     "react-native-codegen": "^0.70.7",
     "release-it": "^15.7.0",
-    "typescript": "^4.9.5"
+    "typescript": "^6.0.3"
   },
   "peerDependencies": {
     "react": "*",
